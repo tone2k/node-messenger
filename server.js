@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 
 app.use(express.static(__dirname))
+app.use(bodyParser.json())
 
 const messages = [
     {name: 'Tim', message: 'Hi'},
@@ -11,6 +13,11 @@ const messages = [
 
 app.get('/messages', (req, res) => {
     res.send(messages)
+})
+
+app.post('/messages', (req, res) => {
+    console.log(req.body);
+    res.sendStatus(200)
 })
 
 
