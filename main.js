@@ -11,6 +11,6 @@ function addMessages(message){
 
 function getMessages() {
     $.get('http://localhost:3000/messages', (data) => {
-        console.log(data)
+        data.forEach(addMessages);
     })
 }
