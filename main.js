@@ -1,4 +1,4 @@
-const socket = io()
+let socket = io()
 
 $(() => {
     $('#send').click(()=>{
@@ -6,7 +6,9 @@ $(() => {
         postMessages(message);
     });
     getMessages();
-});
+})
+
+socket.on('message', addMessages)
 
 function addMessages(message){
     $('#messages').append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`)
