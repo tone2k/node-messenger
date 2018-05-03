@@ -11,6 +11,11 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 const DBURL = "mongodb://tone2k:dcb22191@ds113640.mlab.com:13640/node-messenger"
 
+const Message = mongoose.model('Message', {
+    name: String,
+    message: String
+})
+
 const messages = [
     {name: 'Tim', message: 'Hi'},
     {name: 'Tom', message: 'Hey'},
@@ -22,9 +27,15 @@ app.get('/messages', (req, res) => {
 })
 
 app.post('/messages', (req, res) => {
-    messages.push(req.body);
-    io.emit('message', req.body)
-    res.sendStatus(200)
+    const message = new Message(req.body)
+
+    message.save((err) =>{
+        if(err)
+            sendstatus(500)
+        messages.push(req.body);
+        io.emit('message', req.body)
+        res.sendStatus(200)
+    })
 })
 
 io.on('connection', (socket) => {
