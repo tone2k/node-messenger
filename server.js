@@ -16,14 +16,10 @@ const Message = mongoose.model('Message', {
     message: String
 })
 
-const messages = [
-    {name: 'Tim', message: 'Hi'},
-    {name: 'Tom', message: 'Hey'},
-    {name: 'Tam', message: 'Hello'}
-]
-
 app.get('/messages', (req, res) => {
-    res.send(messages)
+    Message.find({}, (err, messages) => {
+        res.send(messages) 
+    })
 })
 
 app.post('/messages', (req, res) => {
@@ -32,7 +28,6 @@ app.post('/messages', (req, res) => {
     message.save((err) =>{
         if(err)
             sendstatus(500)
-        messages.push(req.body);
         io.emit('message', req.body)
         res.sendStatus(200)
     })

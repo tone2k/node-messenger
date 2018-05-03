@@ -3,6 +3,8 @@ let socket = io()
 $(() => {
     $('#send').click(()=>{
         const message = {name: $('#name').val(), message: $('#message').val()}
+        $('#name').val('')
+        $('#message').val('')
         postMessages(message);
     });
     getMessages();
